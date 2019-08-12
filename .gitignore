@@ -1,0 +1,10 @@
+x64/
+.vs/
+version.h
+test_version/
+Release/
+version/
+Debug/
+version_lib/
+cbp/
+bayan/
