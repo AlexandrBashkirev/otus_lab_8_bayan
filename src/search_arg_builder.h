@@ -11,5 +11,5 @@ namespace flaber
 		
 	};
 
-	std::istream& operator>>(std::istream& in, hash_type& hash_type);
+	std::istream& operator>>(std::istream& in, hash_method& hash_type);
 }

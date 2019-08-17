@@ -7,7 +7,7 @@ flaber::duplicate_searcher flaber::search_arg_builder::build(int argc, char* arg
 {
 	namespace po = boost::program_options;
 
-	hash_type hash_type = hash_type::md5_hash;
+	hash_method hash_type = hash_method::md5_hash;
 	bool is_recurcive;
 	size_t min_size;
 	size_t block_size;
@@ -26,7 +26,7 @@ flaber::duplicate_searcher flaber::search_arg_builder::build(int argc, char* arg
 		("min-size,m", po::value(&min_size)->default_value(1), "min file size")
 		("recursive,r", po::bool_switch(&is_recurcive)->default_value(true), "recursive search")
 		("block-size,b", po::value(&block_size)->default_value(1024), "block size for hash")
-		("hash", po::value(&hash_type)->default_value(hash_type::md5_hash), "hash type (crc32/md5)")
+		("hash", po::value(&hash_type)->default_value(hash_method::md5_hash), "hash type (crc32/md5)")
 		;
 
 	po::variables_map vm;
@@ -55,13 +55,13 @@ flaber::duplicate_searcher flaber::search_arg_builder::build(int argc, char* arg
 	return searcher;
 }
 
-std::istream& flaber::operator>>(std::istream& in, flaber::hash_type& hash_type) {
+std::istream& flaber::operator>>(std::istream& in, flaber::hash_method& hash_type) {
 	std::string token;
 	in >> token;
 	if (token == "crc32")
-		hash_type = flaber::hash_type::crc_hash;
+		hash_type = flaber::hash_method::crc_hash;
 	else if (token == "md5")
-		hash_type = flaber::hash_type::md5_hash;
+		hash_type = flaber::hash_method::md5_hash;
 	else
 		assert("wrong hash type");
 	return in;

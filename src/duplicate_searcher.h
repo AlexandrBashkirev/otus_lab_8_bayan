@@ -10,7 +10,7 @@ using namespace boost::filesystem;
 
 namespace flaber {
 
-	enum hash_type
+	enum hash_method
 	{
 		crc_hash,
 		md5_hash,
@@ -46,14 +46,14 @@ namespace flaber {
 		void set_is_recurcive(bool _is_recurcive);
 		void set_min_file_size(size_t _min_size);
 		void set_block_size(size_t _block_size);
-		void set_hash_method(hash_type _t);
+		void set_hash_method(hash_method _t);
 
 		void start();
 	private:
 		bool is_recurcive;
 		size_t min_size;
 		size_t block_size;
-		hash_type hash_type;
+		hash_method hash_type;
 		std::list<path> pathes_for_search;
 		std::list<path> pathes_for_ignore;
 		std::list<boost::regex> file_masks;

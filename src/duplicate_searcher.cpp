@@ -27,7 +27,7 @@ void duplicate_searcher::set_min_file_size(size_t _min_size) {
 void duplicate_searcher::set_block_size(size_t _block_size) {
 	block_size = _block_size;
 }
-void duplicate_searcher::set_hash_method(flaber::hash_type _t)
+void duplicate_searcher::set_hash_method(flaber::hash_method _t)
 {
 	hash_type = _t;
 }
@@ -92,10 +92,10 @@ void duplicate_searcher::create_hasher()
 {
 	switch (hash_type)
 	{
-	case hash_type::crc_hash:
+	case hash_method::crc_hash:
 		hasher = std::make_unique<crc_hasher>();
 		break;
-	case hash_type::md5_hash:
+	case hash_method::md5_hash:
 		hasher = std::make_unique<md5_hasher>();
 		break;
 	default:
