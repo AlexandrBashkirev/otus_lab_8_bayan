@@ -3,7 +3,11 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
 install:
-  - sudo apt-get install g++-7 cmake libboost-test-dev libboost-filesystem-dev libboost-uuid libboost-crc graphviz -y
+  - sudo apt-get install g++-7 
+  - cmake libboost-test-dev -y
+  - cmake libboost-filesystem-dev -y
+  - cmake libboost-uuid -y
+  - cmake libboost-crc -y
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 script:
   - gcc --version
