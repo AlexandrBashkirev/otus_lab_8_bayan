@@ -3,6 +3,12 @@
 
 namespace flaber
 {
+	enum hash_method
+	{
+		crc_hash,
+		md5_hash,
+	};
+
 	class i_hasher
 	{
 	public:

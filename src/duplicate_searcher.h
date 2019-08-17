@@ -5,35 +5,12 @@
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include "i_hasher.h"
+#include "file_hash_data.h"
 
 using namespace boost::filesystem;
 
 namespace flaber {
 
-	enum hash_method
-	{
-		crc_hash,
-		md5_hash,
-	};
-	namespace
-	{
-		struct file_hash_data
-		{
-			template<typename S>
-			file_hash_data(S&& _path) : path_to_file(std::forward<S>(_path)) {}
-
-			path path_to_file;
-			std::list<std::string> hash;
-
-			std::string full_hash()
-			{
-				std::string tmp;
-				for (auto h : hash)
-					tmp += h;
-				return tmp;
-			}
-		};
-	}
 	class duplicate_searcher
 	{
 	public:
