@@ -20,9 +20,9 @@ namespace flaber {
 		struct file_hash_data
 		{
 			template<typename S>
-			file_hash_data(S&& _path) : path(std::forward<S>(_path)) {}
+			file_hash_data(S&& _path) : path_to_file(std::forward<S>(_path)) {}
 
-			path path;
+			path path_to_file;
 			std::list<std::string> hash;
 
 			std::string full_hash()
@@ -67,7 +67,7 @@ namespace flaber {
 		std::map <std::string, pathes> duplicates;
 
 		bool is_mask_fits(const path& p);
-		bool is_ignored(const path& path);
+		bool is_ignored(const path& path_to_file);
 		bool is_same(file_hash_data& lho, file_hash_data& rho);
 
 		std::list<std::string>::iterator readHash(size_t offset,
@@ -75,7 +75,7 @@ namespace flaber {
 			flaber::file_hash_data& file_data);
 		template<class Iter>
 		void add_each_files(path& current_path);
-		void add_duplicate(std::string full_hash, std::string path);
+		void add_duplicate(std::string full_hash, std::string path_to_file);
 		void create_hasher();
 		void search_duplicates();
 		void search_files_for_check();
@@ -83,8 +83,8 @@ namespace flaber {
 		friend std::ostream& operator<< (std::ostream& os, const duplicate_searcher& searcher) {
 			for (auto& file_info : searcher.duplicates)
 			{
-				for (auto& path : file_info.second)
-					os << path << std::endl;
+				for (auto& path_to_file : file_info.second)
+					os << path_to_file << std::endl;
 				os << std::endl;
 			}
 			return os;

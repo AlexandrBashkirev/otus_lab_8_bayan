@@ -82,11 +82,11 @@ void duplicate_searcher::add_each_files(path& current_path)
 		++it;
 	}
 }
-void duplicate_searcher::add_duplicate(std::string full_hash, std::string path)
+void duplicate_searcher::add_duplicate(std::string full_hash, std::string path_to_file)
 {
 	auto it = duplicates.insert(std::pair<std::string, std::unordered_set<std::string>>(full_hash, std::unordered_set<std::string>())).first;
 
-	it->second.insert(path);
+	it->second.insert(path_to_file);
 }
 void duplicate_searcher::create_hasher()
 {
@@ -115,19 +115,19 @@ bool duplicate_searcher::is_mask_fits(const path& p) {
 	}
 	return false;
 }
-bool duplicate_searcher::is_ignored(const path& path)
+bool duplicate_searcher::is_ignored(const path& path_to_file)
 {
 	for (auto ignore_path : pathes_for_ignore)
-		if (path.string().find(ignore_path.string()) == 0)
+		if (path_to_file.string().find(ignore_path.string()) == 0)
 			return true;
 	return false;
 }
 bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 {
-	if (file_size(lho.path) != file_size(rho.path))
+	if (file_size(lho.path_to_file) != file_size(rho.path_to_file))
 		return false;
 
-	auto files_size = file_size(lho.path);
+	auto files_size = file_size(lho.path_to_file);
 	size_t block_count = files_size / block_size + 1;
 
 	auto firstL = lho.hash.begin();
@@ -159,7 +159,7 @@ std::list<std::string>::iterator duplicate_searcher::readHash(size_t offset,
 	file_hash_data& file_data)
 {
 	if (!file_stream.is_open())
-		file_stream.open(file_data.path.string(), std::ios::in | std::ios::binary | std::ios::ate);
+		file_stream.open(file_data.path_to_file.string(), std::ios::in | std::ios::binary | std::ios::ate);
 
 	file_stream.seekg(offset * block_size, std::ios_base::beg);
 	std::memset(buffer.get(), 0, block_size);
