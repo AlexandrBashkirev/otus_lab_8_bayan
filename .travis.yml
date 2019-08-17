@@ -4,10 +4,10 @@ before_install:
   - sudo apt-get update -qq
 install:
   - sudo apt-get install g++-7 
-  - cmake libboost-test-dev -y
-  - cmake libboost-filesystem-dev -y
-  - cmake libboost-uuid -y
-  - cmake libboost-crc -y
+  - sudo cmake libboost-test-dev -y
+  - sudo cmake libboost-filesystem-dev -y
+  - sudo cmake libboost-uuid -y
+  - sudo cmake libboost-crc -y
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 script:
   - gcc --version
