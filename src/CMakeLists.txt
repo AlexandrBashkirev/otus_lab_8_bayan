@@ -1,5 +1,9 @@
 
 find_package(Boost COMPONENTS filesystem REQUIRED)
+find_package(Boost COMPONENTS uidd REQUIRED)
+find_package(Boost COMPONENTS program-options REQUIRED)
+find_package(Boost COMPONENTS crc REQUIRED)
+find_package(Boost COMPONENTS regex REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/src)
 
