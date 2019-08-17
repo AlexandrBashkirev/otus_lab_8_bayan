@@ -2,23 +2,19 @@
 //
 
 #include <iostream>
-#include <boost/filesystem.hpp>
+#include "duplicate_searcher.h"
+#include "search_arg_builder.h"
 
-using namespace boost::filesystem;
-
-int main()
+int main(int argc, char* argv[])
 {
-	path p{ "C:\\Windows\\System" };
+	flaber::search_arg_builder builder;
+	flaber::duplicate_searcher searcher = builder.build(argc, argv);
 
-#ifdef BOOST_WINDOWS_API
-	std::wcout << p.native() << '\n';
-#else
-	std::cout << p.native() << '\n';
-#endif
+	//searcher.add_search_path("D:\\duplicate_test");
+	//searcher.add_ignore_path("D:\\duplicate_test\\111");
 
-	std::cout << p.string() << '\n';
-	std::wcout << p.wstring() << '\n';
+	searcher.start();
 
-	std::cout << p.generic_string() << '\n';
-	std::wcout << p.generic_wstring() << '\n';
+	std::cout << searcher;
+	
 }

@@ -5,6 +5,10 @@ include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/src)
 
 list(APPEND ${PROJECT_NAME}_SOURCES
     bayan_main.cpp
+    crc_hasher.cpp
+    duplicate_searcher.cpp
+    md5_hasher.cpp
+    search_arg_builder.cpp
 )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
