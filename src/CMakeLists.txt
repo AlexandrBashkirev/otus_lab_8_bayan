@@ -1,4 +1,4 @@
-
+find_package(Boost COMPONENTS system REQUIRED)
 find_package(Boost COMPONENTS filesystem REQUIRED)
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(Boost COMPONENTS regex REQUIRED)
