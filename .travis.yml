@@ -4,10 +4,7 @@ before_install:
   - sudo apt-get update -qq
 install:
   - sudo apt-get install g++-7 
-  - sudo apt install libboost-test-dev -y
-  - sudo apt install libboost-filesystem-dev -y
-  - sudo apt install libboost-uuid -y
-  - sudo apt install libboost-crc -y
+  - sudo apt-get install libboost1.70-dev -y
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 script:
   - gcc --version
