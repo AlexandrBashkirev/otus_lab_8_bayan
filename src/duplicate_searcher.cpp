@@ -1,4 +1,3 @@
-#pragma once
 #include "duplicate_searcher.h"
 #include "md5_hasher.h"
 #include "crc_hasher.h"

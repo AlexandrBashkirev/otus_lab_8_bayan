@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crc_hasher.h"
 #include <boost/crc.hpp>
 #include <string>

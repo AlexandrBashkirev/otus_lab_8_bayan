@@ -1,5 +1,3 @@
-#pragma once
-
 #include "md5_hasher.h"
 #include <boost/uuid/detail/md5.hpp>
 #include <string>

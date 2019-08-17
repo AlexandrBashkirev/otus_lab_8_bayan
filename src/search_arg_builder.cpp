@@ -1,4 +1,3 @@
-#pragma once
 #include <boost/program_options.hpp>
 #include "search_arg_builder.h"
 #include <iostream>
