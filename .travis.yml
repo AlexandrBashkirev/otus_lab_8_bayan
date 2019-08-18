@@ -4,8 +4,8 @@ dist: xenial
 
 before_script:
   - sudo apt-get update
-  - sudo apt-get install libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev -y
-
+#  - sudo apt-get install libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev -y
+  - sudo apt-get install libboost1.58-all-dev -y
 script:
   - gcc --version
   - g++ --version
