@@ -2,6 +2,7 @@
 #include "md5_hasher.h"
 #include "crc_hasher.h"
 #include <iostream>
+#include <fstream>
 
 using namespace flaber;
 

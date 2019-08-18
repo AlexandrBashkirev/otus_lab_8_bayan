@@ -8,6 +8,8 @@
 #include <boost/regex.hpp>
 #include "i_hasher.h"
 #include "file_hash_data.h"
+#include <iostream>
+#include <fstream>
 
 using namespace boost::filesystem;
 
