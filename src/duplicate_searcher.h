@@ -2,7 +2,9 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/regex.hpp>
 #include "i_hasher.h"
 #include "file_hash_data.h"

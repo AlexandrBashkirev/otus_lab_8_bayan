@@ -10,11 +10,7 @@ int main(int argc, char* argv[])
 	flaber::search_arg_builder builder;
 	flaber::duplicate_searcher searcher = builder.build(argc, argv);
 
-	//searcher.add_search_path("D:\\duplicate_test");
-	//searcher.add_ignore_path("D:\\duplicate_test\\111");
-
 	searcher.start();
 
 	std::cout << searcher;
-	
 }
