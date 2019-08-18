@@ -52,7 +52,7 @@ namespace flaber {
 		bool is_same(file_hash_data& lho, file_hash_data& rho);
 
 		std::list<std::string>::iterator readHash(size_t offset,
-			ifstream& file_stream,
+			std::ifstream& file_stream,
 			flaber::file_hash_data& file_data);
 		template<class Iter>
 		void add_each_files(path& current_path);
