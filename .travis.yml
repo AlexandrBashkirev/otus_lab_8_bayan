@@ -1,20 +1,11 @@
+language: cpp
+compiler: gcc
 dist: xenial
-language: c++
-compiler: clang
-before_install:
-  - sudo add-apt-repository ppa:mhier/libboost-latest -y
-  - sudo apt-get update -q
-  - sudo apt-get install libboost1.70-dev -y
-addons:
-  apt:
-    sources:
-    - llvm-toolchain-xenial-7
-    packages:
-    - libc++-7-dev
-    update: true
 
-env:
-  - TARGET=bayan
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install libboost-md5-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev -y
+
 script:
   - gcc --version
   - g++ --version
