@@ -1,8 +1,10 @@
-language: cpp
+dist: xenial
+language: c++
+compiler: clang
 before_install:
   - sudo add-apt-repository ppa:mhier/libboost-latest -y
   - sudo apt-get update -q
-  - sudo apt-get install libboost1.69-dev -y
+  - sudo apt-get install libboost1.70-dev -y
 addons:
   apt:
     sources:
