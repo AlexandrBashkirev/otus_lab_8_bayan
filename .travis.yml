@@ -6,7 +6,7 @@ before_install:
   - sudo apt-get update -qq
 install:
   - sudo apt-get update
-  - sudo apt-get install libboost1.66 -y
+  - sudo apt-get install boost1.66 -y
 script:
   - gcc --version
   - g++ --version
