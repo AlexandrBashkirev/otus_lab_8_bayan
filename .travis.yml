@@ -4,7 +4,7 @@ dist: xenial
 
 before_script:
   - sudo apt-get update
-  - sudo apt-get install libboost-md5-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev -y
+  - sudo apt-get install libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev -y
 
 script:
   - gcc --version
