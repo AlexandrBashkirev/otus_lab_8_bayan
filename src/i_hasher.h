@@ -13,5 +13,6 @@ namespace flaber
 	{
 	public:
 		virtual std::string hash(char* data, size_t size) = 0;
+		virtual ~i_hasher() {}
 	};
 }
