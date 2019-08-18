@@ -133,8 +133,8 @@ bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 	auto firstL = lho.hash.begin();
 	auto firstR = rho.hash.begin();
 
-	ifstream l_file_stream;
-	ifstream r_file_stream;
+	std::ifstream l_file_stream;
+	std::ifstream r_file_stream;
 	
 	for (size_t i = 0; i < block_count; ++i)
 	{
@@ -155,7 +155,7 @@ bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 }
 
 std::list<std::string>::iterator duplicate_searcher::readHash(size_t offset,
-	ifstream& file_stream, 
+	std::ifstream& file_stream,
 	file_hash_data& file_data)
 {
 	if (!file_stream.is_open())
