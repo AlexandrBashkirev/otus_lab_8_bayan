@@ -2,7 +2,7 @@ find_package(Boost COMPONENTS system REQUIRED)
 find_package(Boost COMPONENTS filesystem REQUIRED)
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(Boost COMPONENTS regex REQUIRED)
-find_package(Boost COMPONENTS md5 REQUIRED)
+find_package(Boost COMPONENTS uuid REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/src)
 
