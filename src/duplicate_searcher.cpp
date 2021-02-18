@@ -10,10 +10,12 @@ void duplicate_searcher::add_search_path(std::string& _path)
 {
 	pathes_for_search.emplace_back(_path);
 }
+
 void duplicate_searcher::add_ignore_path(std::string& _path)
 {
 	pathes_for_ignore.emplace_back(_path);
 }
+
 void duplicate_searcher::add_file_mask(std::string& _mask)
 {
 	file_masks.emplace_back(_mask);
@@ -21,12 +23,15 @@ void duplicate_searcher::add_file_mask(std::string& _mask)
 void duplicate_searcher::set_is_recurcive(bool _is_recurcive) {
 	is_recurcive = _is_recurcive;
 }
+
 void duplicate_searcher::set_min_file_size(size_t _min_size) {
 	min_size = _min_size;
 }
+
 void duplicate_searcher::set_block_size(size_t _block_size) {
 	block_size = _block_size;
 }
+
 void duplicate_searcher::set_hash_method(flaber::hash_method _t)
 {
 	hash_type = _t;
@@ -41,22 +46,39 @@ void duplicate_searcher::start()
 	search_duplicates();
 }
 
-void duplicate_searcher::search_duplicates() {
-	auto first = files_hashes.begin();
-	auto last = files_hashes.end();
-	for (; first != last; ++first) {
-		auto in_first = first;
+void duplicate_searcher::search_duplicates() 
+{
+	std::vector<file_hash_data> buffer = std::vector<file_hash_data>();
 
-		for (++in_first; in_first != last; ++in_first) {
-			if (is_same(first->second, in_first->second))
+	for (auto it = files_hashes.begin(); it != files_hashes.end(); ++it) 
+	{
+		if(it->second.size() > 1)
+		{
+			buffer.clear();
+			std::for_each(it->second.begin(), it->second.end(), [&buffer](auto &n){ buffer.push_back(n.second); });
+			
+			for (auto i = buffer.begin(); i != buffer.end(); ++i) 
 			{
-				add_duplicate(first->second.full_hash(), first->first);
-				add_duplicate(in_first->second.full_hash(), in_first->first);
+				for (auto j = i+1; j != buffer.end(); ++j) 
+				{
+					if (is_same(*i, *j))
+					{
+						std::string full_hash = i->full_hash();
+
+						add_duplicate(full_hash, i->path_to_file.string());
+						add_duplicate(full_hash, j->path_to_file.string());
+
+						buffer.erase(j);
+						--j;
+					}
+				}
 			}
 		}
 	}
 }
-void duplicate_searcher::search_files_for_check() {
+
+void duplicate_searcher::search_files_for_check() 
+{
 	if (pathes_for_search.empty())
 		pathes_for_search.emplace_back(".");
 
@@ -68,26 +90,42 @@ void duplicate_searcher::search_files_for_check() {
 			add_each_files<directory_iterator>(current_path);
 	}
 }
+
 template<class Iter>
 void duplicate_searcher::add_each_files(path& current_path)
 {
 	Iter it{ current_path };
-	while (it != Iter{}) {
-		if (!is_directory(*it) &&
-			!is_ignored(it->path()) &&
-			is_mask_fits(it->path()) &&
-			file_size(it->path()) >= min_size &&
-			files_hashes.find(it->path().string()) == files_hashes.end())
-			files_hashes.insert(std::pair<std::string, file_hash_data>(it->path().string(), file_hash_data( it->path())));
+	while (it != Iter{}) 
+	{
+		if (!is_directory(*it))
+		{
+			auto path = it->path();
+			auto fs = file_size(path);
+			std::string path_str = path.string();
+
+			if(!is_ignored(path) &&
+				is_mask_fits(path) &&
+				fs >= min_size)
+			{
+				auto hash_list = files_hashes.insert(std::pair<std::uintmax_t, hashes>(fs, hashes())).first;
+				if(hash_list->second.find(path_str) == hash_list->second.end())
+				{
+					hash_list->second.emplace(path_str, file_hash_data( it->path() ));
+				}
+			}
+		} 
+			
 		++it;
 	}
 }
+
 void duplicate_searcher::add_duplicate(std::string full_hash, std::string path_to_file)
 {
 	auto it = duplicates.insert(std::pair<std::string, std::unordered_set<std::string>>(full_hash, std::unordered_set<std::string>())).first;
 
 	it->second.insert(path_to_file);
 }
+
 void duplicate_searcher::create_hasher()
 {
 	switch (hash_type)
@@ -104,7 +142,8 @@ void duplicate_searcher::create_hasher()
 	}
 }
 
-bool duplicate_searcher::is_mask_fits(const path& p) {
+bool duplicate_searcher::is_mask_fits(const path& p) 
+{
 	if (file_masks.empty())
 		return true;
 	
@@ -115,6 +154,7 @@ bool duplicate_searcher::is_mask_fits(const path& p) {
 	}
 	return false;
 }
+
 bool duplicate_searcher::is_ignored(const path& path_to_file)
 {
 	for (auto ignore_path : pathes_for_ignore)
@@ -122,13 +162,11 @@ bool duplicate_searcher::is_ignored(const path& path_to_file)
 			return true;
 	return false;
 }
+
 bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 {
-	if (file_size(lho.path_to_file) != file_size(rho.path_to_file))
-		return false;
-
 	auto files_size = file_size(lho.path_to_file);
-	size_t block_count = files_size / block_size + 1;
+	size_t total_block_count = files_size / block_size + 1;
 
 	auto firstL = lho.hash.begin();
 	auto firstR = rho.hash.begin();
@@ -136,7 +174,7 @@ bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 	std::ifstream l_file_stream;
 	std::ifstream r_file_stream;
 	
-	for (size_t i = 0; i < block_count; ++i)
+	for (size_t i = 0; i < total_block_count; ++i)
 	{
 		if (firstL == lho.hash.end())
 			firstL = readHash(i, l_file_stream, lho);
@@ -145,12 +183,20 @@ bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
 			firstR = readHash(i, r_file_stream, rho);
 		
 		if (firstL->find(*firstR) != 0)
+		{
+			l_file_stream.close();
+			r_file_stream.close();
+			
 			return false;
+		}
 
 		++firstL;
 		++firstR;
 	}
-	
+
+	l_file_stream.close();
+	r_file_stream.close();
+
 	return true;
 }
 

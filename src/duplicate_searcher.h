@@ -42,7 +42,8 @@ namespace flaber {
 		std::shared_ptr<char> buffer;
 		std::unique_ptr<i_hasher> hasher;
 
-		std::unordered_map<std::string, file_hash_data> files_hashes;
+		using hashes = std::unordered_map<std::string, file_hash_data>;
+		std::unordered_map<std::uintmax_t, hashes> files_hashes;
 
 		using pathes = std::unordered_set<std::string>;
 		std::map <std::string, pathes> duplicates;
