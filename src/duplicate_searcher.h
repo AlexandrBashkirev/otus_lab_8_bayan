@@ -39,10 +39,9 @@ namespace flaber {
 		std::list<path> pathes_for_ignore;
 		std::list<boost::regex> file_masks;
 
-		std::shared_ptr<char> buffer;
 		std::unique_ptr<i_hasher> hasher;
 
-		using hashes = std::unordered_map<std::string, file_hash_data>;
+		using hashes = std::unordered_set<std::string>;
 		std::unordered_map<std::uintmax_t, hashes> files_hashes;
 
 		using pathes = std::unordered_set<std::string>;
@@ -50,7 +49,7 @@ namespace flaber {
 
 		bool is_mask_fits(const path& p);
 		bool is_ignored(const path& path_to_file);
-		bool is_same(file_hash_data& lho, file_hash_data& rho);
+		bool is_same(size_t files_size, file_hash_data& lho, file_hash_data& rho);
 
 		std::list<std::string>::iterator readHash(size_t offset,
 			std::ifstream& file_stream,

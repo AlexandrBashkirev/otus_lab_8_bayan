@@ -54,19 +54,20 @@ void duplicate_searcher::search_duplicates()
 	{
 		if(it->second.size() > 1)
 		{
+			size_t file_size = it->first;
 			buffer.clear();
-			std::for_each(it->second.begin(), it->second.end(), [&buffer](auto &n){ buffer.push_back(n.second); });
+			std::for_each(it->second.begin(), it->second.end(), [&buffer, &file_size](auto &file_path){ buffer.emplace_back(file_size, file_path); });
 			
 			for (auto i = buffer.begin(); i != buffer.end(); ++i) 
 			{
 				for (auto j = i+1; j != buffer.end(); ++j) 
 				{
-					if (is_same(*i, *j))
+					if (is_same(it->first, *i, *j))
 					{
 						std::string full_hash = i->full_hash();
 
-						add_duplicate(full_hash, i->path_to_file.string());
-						add_duplicate(full_hash, j->path_to_file.string());
+						add_duplicate(full_hash, i->path_to_file);
+						add_duplicate(full_hash, j->path_to_file);
 
 						buffer.erase(j);
 						--j;
@@ -110,7 +111,7 @@ void duplicate_searcher::add_each_files(path& current_path)
 				auto hash_list = files_hashes.insert(std::pair<std::uintmax_t, hashes>(fs, hashes())).first;
 				if(hash_list->second.find(path_str) == hash_list->second.end())
 				{
-					hash_list->second.emplace(path_str, file_hash_data( it->path() ));
+					hash_list->second.emplace(path_str);
 				}
 			}
 		} 
@@ -163,9 +164,8 @@ bool duplicate_searcher::is_ignored(const path& path_to_file)
 	return false;
 }
 
-bool duplicate_searcher::is_same(file_hash_data& lho, file_hash_data& rho)
+bool duplicate_searcher::is_same(size_t files_size, file_hash_data& lho, file_hash_data& rho)
 {
-	auto files_size = file_size(lho.path_to_file);
 	size_t total_block_count = files_size / block_size + 1;
 
 	auto firstL = lho.hash.begin();
